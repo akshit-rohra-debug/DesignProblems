@@ -4,6 +4,7 @@
 
 #include "deal_builder.h"
 #include <iostream>
+#include <memory>
 using namespace std;
 
 DealBuilder DealBuilder::create_deal(int id) {
@@ -36,7 +37,7 @@ DealBuilder DealBuilder::has_stock(int items) {
     return *this;
 }
 
-Deal &DealBuilder::get_deal() {
+unique_ptr<Deal> DealBuilder::get_deal() {
     if (deal_name_.empty()) {
         throw std::exception();
     }
@@ -51,8 +52,8 @@ Deal &DealBuilder::get_deal() {
         throw std::exception();
     }
 
-    Deal deal(deal_id_, deal_name_, product_id_, deal_price_, end_time_, items_left_);
-    return deal;
+    unique_ptr<Deal> deal(new Deal(deal_id_, deal_name_, product_id_, deal_price_, end_time_, items_left_));
+    return std::move(deal);
 }
 
 DealBuilder::DealBuilder() {}

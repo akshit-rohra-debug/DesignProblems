@@ -9,6 +9,7 @@
 #include <atomic>
 #include <chrono>
 #include <vector>
+#include <memory>
 #include "deal.h"
 
 class DealBuilder {
@@ -27,7 +28,7 @@ public:
     DealBuilder with_price(float price);
     DealBuilder ending_at(std::chrono::time_point<std::chrono::system_clock> end_time);
     DealBuilder has_stock(int items);
-    Deal& get_deal();
+    std::unique_ptr<Deal> get_deal();
 
 };
 
